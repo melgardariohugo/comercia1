@@ -1,0 +1,263 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #161618;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #22232a;
+    padding: 14px 24px;
+    border-bottom: 2px solid #28282f;
+}
+main {
+    max-width: 900px;
+    margin: 34px auto;
+    padding: 24px 20px 30px 20px;
+    background: #1b1b22;
+    border-radius: 20px;
+    box-shadow: 0 4px 28px #10101a33;
+}
+form#formProveedor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ------ Layout de inputs ------ */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 30px;
+    margin-bottom: 10px;
+}
+
+.form-row-expand {
+    gap: 18px 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 180px;
+    min-width: 180px;
+    max-width: 260px;
+}
+
+.form-row.form-row-expand .form-group.group-half {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 425px;
+   }
+
+/* Inputs de correo y dirección más largos */
+.group-half input {
+    width: 100%;
+}
+
+/* --- Etiquetas e inputs --- */
+.form-group label {
+    margin-bottom: 4px;
+    font-size: 1.01rem;
+    color: #8e8f91;
+    font-weight: 500;
+}
+.form-group input {
+    padding: 7px 11px;
+    border: 1.3px solid #2d425a;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #242535;
+    color: #e6f3ff;
+    outline: none;
+    transition: border-color 0.14s;
+}
+
+.form-group input:focus {
+    border-color: #58b6ff;
+    background: #222233;
+}
+.input-plusminus {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+.input-plusminus input {
+    width: 70px;
+    text-align: center;
+    border-radius: 0;
+}
+.input-plusminus button {
+    width: 32px;
+    height: 34px;
+    font-size: 1.3rem;
+    background: #253765;
+    color: #e4ecfa;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.14s;
+}
+.input-plusminus button:hover, .input-plusminus button:focus {
+    background: #3c69ac;
+}
+.input-error {
+    color: #ff6161;
+    font-size: 0.91rem;
+    margin-top: 1px;
+    min-height: 19px;
+}
+
+
+/* ------ Botones ------ */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+    width: 100%;
+}
+
+/* Botones oscuros personalizados */
+.btn-dark {
+    padding: 11px 28px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+     background: #161a1d;
+    color: #f7f7f7;
+    border: 1.4px solid #4d5061;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #1a293d22;
+    transition: background 0.17s, border-color 0.17s, color 0.17s;
+    outline: none;    
+}
+.btn-dark:hover, .btn-dark:focus {
+    background: linear-gradient(90deg, #0d0d0d 0%, #044d0f 100%);
+     color: #69c1ff;
+     border-color: #69c1ff;
+}
+.btn-gest {
+    margin-left: 8px;
+}
+
+/* ------ Modal mensaje ------ */
+.modal-oculto {
+    display: none !important;
+}
+#modalMensaje {
+    position: fixed;
+    left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(18,28,58,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.modal-contenido {
+    background: #181b29;
+    border-radius: 18px;
+    box-shadow: 0 4px 28px #000a;
+    padding: 32px 34px 20px 34px;
+    min-width: 290px;
+    max-width: 95vw;
+    text-align: center;
+    position: relative;
+}
+#mensajeTexto {
+    display: block;
+    font-size: 1.18rem;
+    margin-bottom: 26px;
+    color: #70dbe9;
+    font-weight: 500;
+    text-shadow: 0 1px 6px #174365;
+}
+#cerrarModal {
+    background: #1b3659;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 12px #0a1a2875;
+    transition: background 0.15s, color 0.15s;
+}
+#cerrarModal:hover, #cerrarModal:focus {
+    background: #5fbee9;
+    color: #072d43;
+}
+
+/* ------ Responsive ------ */
+@media (max-width: 950px) {
+    main {
+        max-width: 98vw;
+    }
+    .form-row,
+    .form-row.form-row-expand {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .form-group {
+        max-width: 98vw;
+        min-width: 90vw;
+    }
+    .proveedores-titulo {
+        font-size: 1.12rem;
+        margin-left: 10px;
+    }
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+        padding: 8px 7vw 8px 3vw;
+    }
+    .header-left {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+    .usuario-header {
+        justify-content: flex-end;
+        margin-top: 4px;
+    }
+    .form-actions {
+        justify-content: center;
+        width: 100%;
+    }
+}
+@media (max-width: 700px) {
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .btn-gest {
+        margin-left: 0;
+    }
+}
+@media (max-width: 500px) {
+    .header {
+        padding: 8px 3vw 8px 3vw;
+    }
+    .logo-header {
+        height: 40px;
+    }
+    .proveedores-titulo {
+        font-size: 0.97rem;
+    }
+    .modal-contenido {
+        padding: 16px 8px 16px 8px;
+        min-width: unset;
+    }
+}

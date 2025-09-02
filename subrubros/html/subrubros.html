@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sub-Rubros - DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso -->
+    <script>
+        (function () {
+            function showEmergenteLogin(msj, ms = 2200) {
+                if (document.getElementById('emergente-login')) return;
+                const div = document.createElement('div');
+                div.id = 'emergente-login';
+                div.style.position = 'fixed';
+                div.style.top = '30%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%)';
+                div.style.background = '#18181c';
+                div.style.color = '#fff';
+                div.style.padding = '32px 36px 22px 36px';
+                div.style.borderRadius = '18px';
+                div.style.boxShadow = '0 8px 24px #0008';
+                div.style.fontSize = '1.23em';
+                div.style.zIndex = 99999;
+                div.style.textAlign = 'center';
+                div.style.border = '2.2px solid #e44343';
+                div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.remove();
+                    window.location.href = "login.html";
+                }, ms);
+            }
+            try {
+                const userRaw = localStorage.getItem('usuarioLogueado');
+                if (!userRaw) throw 1;
+                const user = JSON.parse(userRaw);
+                if (!user || Object.keys(user).length === 0) throw 1;
+            } catch {
+                document.addEventListener('DOMContentLoaded', function () {
+                    showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+                });
+            }
+        })();
+    </script>
+       <link rel="stylesheet" href="../../shared/css/encabezados.css">
+       <link rel="stylesheet" href="../../shared/css/notify.css">
+      <link rel="stylesheet" href="../CSS/subrubros.css">
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+    
+</head>
+
+<body>
+    <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <span class="titulo-usuario">Sub-Rubros</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+<main>
+  <section class="card-formulario-subrubro">
+    <form id="formSubrubro" autocomplete="off">
+      <div class="fila-form">
+        <div class="campo-form">
+          <label for="nro_comercio">N° Comercio</label>
+          <input type="text" class="nro_comercio" id="nro_comercio" name="nro_comercio" readonly>
+        </div>
+        <div class="campo-form">
+          <label for="combo_rubro">Rubro <span style="color:#19c;">(N° | Código | Rubro)</span></label>
+          <select class="combo_rubro" id="combo_rubro" name="combo_rubro">
+            <option value="">Seleccione...</option>
+          </select>
+        </div>
+        <div class="campo-form">
+          <label for="nro_rubro">N° Rubro</label>
+          <input type="text" class="nro_rubro" id="nro_rubro" name="nro_rubro" readonly>
+        </div>
+      </div>
+
+      <div class="fila-form">
+        <div class="campo-form">
+          <label for="cod_rubro">Código Rubro</label>
+          <input type="text" id="cod_rubro" name="cod_rubro" readonly>
+        </div>
+        <div class="campo-form">
+          <label for="nro_subrubro">N° Subrubro</label>
+          <input type="text" id="nro_subrubro" name="nro_subrubro" readonly>
+        </div>
+        <div class="campo-form">
+          <label for="cod_subrubro">Código Subrubro</label>
+          <input type="text" id="cod_subrubro" name="cod_subrubro" maxlength="24" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="fila-form">
+        <div class="campo-form" style="flex:1 1 100%;">
+          <label for="subrubro">Nombre de Subrubro</label>
+          <input type="text" id="subrubro" name="subrubro" maxlength="100" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="botones-form">
+        <button type="submit" id="btnGuardarSubrubro" class="btn-guardar-subrubro">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" style="vertical-align:middle;">
+            <path d="M17 3v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V3m2 14a2 2 0 1 0 4 0M5 7v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7" stroke="#fff" stroke-width="2"/>
+          </svg>
+          Guardar
+        </button>
+        <button type="button" class="btn-ir-gestion" onclick="window.location.href='gestionsubrubros.html'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;">
+            <path d="M4 12h16M16 8l4 4-4 4" stroke="#00aaff" stroke-width="2"/>
+          </svg>
+          Gest-SubRubros
+        </button>
+      </div>
+    </form>
+  </section>
+</main>
+       <script src="../../shared/js/utilidadusuarios.js"></script>
+       <script src="../../shared/js/notify.js"></script> 
+       <script src="../js/subrubros.js"></script>
+   
+</body>
+
+</html>
+
+
+ 
+     

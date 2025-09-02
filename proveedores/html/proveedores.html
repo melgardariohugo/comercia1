@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proveedores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso y mensaje emergente si no está logueado -->
+<script>
+(function() {
+    // Función para mostrar mensaje emergente central
+    function showEmergenteLogin(msj, ms = 2200) {
+        // Evita duplicados
+        if (document.getElementById('emergente-login')) return;
+        // Crea el contenedor
+        const div = document.createElement('div');
+        div.id = 'emergente-login';
+        div.style.position = 'fixed';
+        div.style.top = '30%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = '#18181c';
+        div.style.color = '#fff';
+        div.style.padding = '32px 36px 22px 36px';
+        div.style.borderRadius = '18px';
+        div.style.boxShadow = '0 8px 24px #0008';
+        div.style.fontSize = '1.23em';
+        div.style.zIndex = 99999;
+        div.style.textAlign = 'center';
+        div.style.border = '2.2px solid #e44343';
+
+        // Ícono SVG de advertencia (opcional)
+        div.innerHTML = `
+            <div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div>
+            <div>${msj}</div>
+        `;
+        document.body.appendChild(div);
+        setTimeout(() => {
+            div.remove();
+            window.location.href = "login.html";
+        }, ms);
+    }
+
+    // Chequeo de usuario logueado
+    try {
+        const userRaw = localStorage.getItem('usuarioLogueado');
+        if (!userRaw) throw 1;
+        const user = JSON.parse(userRaw);
+        if (!user || Object.keys(user).length === 0) throw 1;
+    } catch {
+        // Mostrar mensaje emergente y redirigir tras 2 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+        });
+    }
+})();
+</script>
+    <link rel="stylesheet" href="../../shared/css/encabezados.css">
+       <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../css/proveedores.css">
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+    
+
+</head>
+<body>
+     <!-- HEADER igual para todos -->
+   <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <span class="titulo-usuario">Carga Articulo</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+
+      <main>
+        <form id="formProveedor" autocomplete="off">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nro_comercio">N° Comercio</label>
+                    <!-- SOLO readonly, NO disabled -->
+                    <input type="number" id="nro_comercio" name="nro_comercio" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="nro_proveedor">N° Proveedor</label>
+                    <div class="input-plusminus">
+                        <button type="button" id="btnMenos">-</button>
+                        <input type="number" id="nro_proveedor" name="nro_proveedor" min="1" required>
+                        <button type="button" id="btnMas">+</button>
+                    </div>
+                    <span class="input-error" id="err_nro_proveedor"></span>
+                </div>
+                <div class="form-group">
+                    <label for="nom_proveedor">Nombre proveedor</label>
+                    <input type="text" id="nom_proveedor" name="nom_proveedor" maxlength="50" required>
+                    <span class="input-error" id="err_nom_proveedor"></span>
+                </div>
+                <div class="form-group">
+                    <label for="web_proveedor">Web proveedor</label>
+                    <input type="url" id="web_proveedor" name="web_proveedor" maxlength="100" required style="cursor:pointer;">
+                    <span class="input-error" id="err_web_proveedor"></span>
+                </div>
+            </div>
+            <div class="form-row form-row-expand">
+                <div class="form-group group-half">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" maxlength="160" required>
+                    <span class="input-error" id="err_correo"></span>
+                </div>
+                <div class="form-group group-half half-dir">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" maxlength="200" required>
+                    <span class="input-error" id="err_direccion"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contacto">Contacto</label>
+                    <input type="text" id="contacto" name="contacto" maxlength="50" required>
+                    <span class="input-error" id="err_contacto"></span>
+                </div>
+                <div class="form-group">
+                    <label for="tel_contacto">Tel. Contacto</label>
+                    <input type="text" id="tel_contacto" name="tel_contacto" maxlength="15" required>
+                    <span class="input-error" id="err_tel_contacto"></span>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_alta">Fecha Alta</label>
+                    <input type="date" id="fecha_alta" name="fecha_alta" readonly disabled>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" id="btnGuardar" class="btn-dark">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="#fff" stroke-width="2"/>
+                        <path d="M17 21v-8H7v8" stroke="#888" stroke-width="2"/>
+                    </svg>
+                    Guardar
+                </button>
+                <button type="button" id="btnGestProveedor" class="btn-dark btn-gest">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="7" width="18" height="10" rx="2" stroke="#fff" stroke-width="2"/>
+                        <path d="M8 11v2h8v-2" stroke="#888" stroke-width="2"/>
+                    </svg>
+                    Gest-Proveedor
+                </button>
+            </div>
+        </form>
+    </main>
+    <div id="modalMensaje" class="modal-oculto">
+        <div class="modal-contenido">
+            <span id="mensajeTexto"></span>
+            <button id="cerrarModal" type="button">Cerrar</button>
+        </div>
+    </div>
+      <script src="../../shared/js/utilidadusuarios.js"></script>
+     <script src="../../shared/js/notify.js"></script>
+    <script src="../JS/proveedores.js"></script>
+   
+</body>
+</html>
+
+
+
+ 

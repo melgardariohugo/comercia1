@@ -1,0 +1,161 @@
+/* --- porganancia.css FINAL con formulario ancho --- */
+
+/* === porganancia.css FINAL FUNCIONAL Y ORDENADO === */
+
+body {
+  background: #17181c;
+  color: #f1f1f1;
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.main-porganancia {
+  max-width: 720px;
+  margin: 40px auto 0 auto;
+  padding: 0 10px;
+}
+
+.form-ganancia {
+  background: #23232b;
+  padding: 22px 20px 20px 20px;
+  border-radius: 13px;
+  box-shadow: 0 4px 24px #0005;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 38px;
+}
+
+/* Inputs en una sola fila */
+.form-row-inline {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.input-group label {
+  color: #aad3f6;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-size: 0.95em;
+}
+
+.input-group input {
+  padding: 7px 10px;
+  border: 1.5px solid #7bdaf7;
+  border-radius: 8px;
+  background: #171822;
+  color: #cfe9ff;
+  font-size: 1em;
+  outline: none;
+  text-align: center;
+  transition: border 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #33bbff;
+}
+
+/* Botón centrado debajo del input */
+.btn-generar {
+  align-self: center;
+  padding: 10px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #29abe2 30%, #00c3a3 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 9px #188ea02a;
+  width: auto;
+}
+
+.btn-generar:hover {
+  background: linear-gradient(90deg, #00c3a3 20%, #29abe2 100%);
+}
+
+/* Tabla */
+.tabla-container {
+  background: #222530;
+  border-radius: 11px;
+  box-shadow: 0 2px 16px #0003;
+  padding: 18px 12px 16px 12px;
+}
+
+.tabla-container h2 {
+  margin-top: 0;
+  color: #92c9ff;
+  font-size: 1.1em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+#tablaGanancias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 4px;
+}
+
+#tablaGanancias thead {
+  background: #194469;
+}
+
+#tablaGanancias th,
+#tablaGanancias td {
+  padding: 7px 0;
+  text-align: center;
+  color: #e4f7ff;
+  border-bottom: 1px solid #2a6e9b30;
+  font-size: 1.02em;
+}
+
+#tablaGanancias th {
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+#tablaGanancias tr:last-child td {
+  border-bottom: none;
+}
+
+.mensaje-vacio {
+  text-align: center;
+  color: #bbb;
+  font-size: 1.01em;
+  margin-top: 14px;
+}
+
+/* Responsive: inputs en columna solo si pantalla chica */
+@media (max-width: 600px) {
+  .form-row-inline {
+    flex-direction: column;
+    align-items: center;
+  }
+  .input-group {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+.porcentaje-item {
+  background: #194469;
+  color: #e4f7ff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  min-width: 50px; /* más chico para que entren más */
+  text-align: center;
+  box-shadow: 0 1px 4px #0005;
+}

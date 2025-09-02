@@ -1,0 +1,444 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #161618;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+}
+main {
+    max-width: 1100px;
+    margin: 38px auto 0 auto;
+    padding: 28px 18px 34px 18px;
+    background: #1b1b22;
+    border-radius: 20px;
+    box-shadow: 0 4px 28px #10101a33;
+}
+
+/* ------- Filtros -------- */
+#filtrosProveedor {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 30px;
+    margin-bottom: 12px;
+}
+#filtrosProveedor input {
+    background: #232338;
+    border: 1px solid #2ec1e6;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-right: 8px;
+    width: 100%;
+    transition: border 0.2s;
+}
+#filtrosProveedor input:focus {
+    outline: none;
+    border: 1.5px solid #43d0e3;
+    background: #222844;
+}
+#btnBuscar {
+    font-size: 1.06rem;
+    background: #25623e;
+    color: #fff;
+    border: 1.5px solid #48ecbb;
+    border-radius: 8px;
+    padding: 11px 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 18px #18181870;
+    transition: background 0.15s, color 0.13s, border 0.13s;
+    font-weight: 600;
+    gap: 8px;
+}
+#btnBuscar:hover, #btnBuscar:focus {
+    background: linear-gradient(90deg, #0d0d0d 0%, #494a49 100%);
+     color: #b6d6e6;
+     border-color: #ebeef0;
+     box-shadow: 0 2px 12px #8d9bae80;
+}
+.btn-dark {
+    background: #1edff8;
+    color: #222;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    padding: 9px 10px;
+    font-size: 1.01em;
+    cursor: pointer;
+    box-shadow: 0 1px 7px #0ff2;
+    transition: background 0.15s;
+}
+.btn-dark:hover {
+    background: linear-gradient(90deg, #0d0d0d 0%, #494a49 100%);
+     color: #b6d6e6;
+     border-color: #ebeef0;
+     box-shadow: 0 2px 12px #8d9bae80;
+}
+
+
+/* ------- Tabla ------- */
+.tabla-contenedor {
+    overflow-x: auto;
+    max-width: 100vw;
+}
+.tabla-lista {
+    width: 100%;
+    min-width:1300px;
+    border-collapse: collapse;
+}
+
+.tabla-lista th:nth-child(5), .tabla-lista td:nth-child(5) { /* Dirección */
+    min-width: 180px;
+    max-width: 240px;
+    white-space: normal;
+}
+
+.tabla-lista th:nth-child(6), .tabla-lista td:nth-child(6) { /* Contacto */
+    min-width: 120px;
+}
+
+.tabla-lista th:nth-child(8), .tabla-lista td:nth-child(8) { /* Fecha Alta */
+    min-width: 105px;
+    text-align: center;
+}
+
+.tabla-lista th, .tabla-lista td {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 1em;
+}
+.tabla-lista th {
+    background: #232338;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+.tabla-lista tr:nth-child(even):not(.selected) {
+    background: #26273b;
+}
+.tabla-lista tr:hover:not(.selected) {
+    background: #41c6e01e;
+    cursor: pointer;
+}
+.tabla-lista tbody tr.selected {
+    background: linear-gradient(90deg, #2f3423 30%, #044d0f6f 100%);
+    color: #fff;
+    box-shadow: 0 0 10px #41c6e044 inset, 0 0 0 2px #41c6e0cc;
+    transition: background 0.25s, color 0.17s, box-shadow 0.17s;
+}
+.tabla-lista tbody tr.selected td a {
+    color: #fff !important;
+    text-decoration: underline;
+}
+
+.tabla-lista td a {
+    color: rgb(166, 166, 171);
+    text-decoration: underline;
+    transition: color 0.12s;
+}
+.tabla-lista td a:hover {
+    color: #e9f3f5;
+    text-shadow: 0 2px 8px #1edff888;
+}
+
+/* Acción fila (editar/borrar) */
+.acciones-proveedor {
+    display: flex;
+    gap: 8px;
+}
+.btn-editar, .btn-borrar {
+    background: none;
+    border: none;
+    padding: 5px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.13s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-editar:hover {
+    background: #1bc0e9;
+    transform: scale(1.13) rotate(-6deg);
+}
+.btn-borrar:hover {
+    background: #f55b7b;
+    transform: scale(1.13) rotate(6deg);
+}
+.btn-editar svg, .btn-borrar svg {
+    display: block;
+}
+
+/* Resalta filas eliminadas (para futuras mejoras) */
+.fila-baja {
+    background: #952d2d !important;
+    color: #fff !important;
+}
+.fila-alta {
+    background: #1c4a37 !important;
+    color: #eafbf3 !important;
+}
+
+/* ------ Paginador ------ */
+.paginador {
+    margin: 22px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+}
+.paginador button {
+    background: #232634;
+    color: #fff;
+    border: 1.4px solid #5ec4e9;
+    border-radius: 7px;
+    font-size: 1.03rem;
+    padding: 7px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.13s, color 0.13s, border 0.13s;
+}
+.paginador button:hover, .paginador button:focus {
+    background: #44d1fb;
+    color: #192330;
+    border-color: #aaf6ff;
+}
+.paginador .pagina-activa {
+    background: #57ffb0;
+    color: #1a3030;
+    border-color: #50ffde;
+    font-weight: 700;
+}
+
+/* ------ Modal Edición ------ */
+/* MODAL PROVEEDOR (responsive y animado) */
+#modalEditarProveedor {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(24,24,28,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+#modalEditarProveedor.modal-oculto { display: none; }
+.modal-card-editar-proveedor {
+  background: #18181c;
+  border-radius: 20px;
+  padding: 36px 36px 24px 36px;
+  width: 96vw;
+  max-width: 930px;
+  box-shadow: 0 10px 40px #121214a6, 0 1.5px 0 #43d0e366 inset;
+  position: relative;
+  animation: popin 0.38s cubic-bezier(.77,-0.14,.27,1.16);
+}
+@keyframes popin {
+  from { opacity: 0; transform: scale(.88) translateY(60px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.logo-modal {
+  display:block;
+  margin: 0 auto 10px auto;
+  width: 58px; height: auto;
+}
+#modalEditarProveedor h2 {
+  text-align: left;
+  margin: 0 0 16px 0;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .5px;
+}
+.modal-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.modal-col {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+.modal-col label {
+  color: #b6bac5;
+  font-size: .97em;
+  margin-bottom: 2.5px;
+  font-weight: 400;
+  letter-spacing: .4px;
+}
+.modal-col input {
+  background: #232328;
+  border: 1.2px solid #232350;
+  color: #fff;
+  border-radius: 6px;
+  padding: 7.5px 10px;
+  font-size: 1.06em;
+  outline: none;
+  transition: border .18s, box-shadow .18s;
+}
+.modal-col input:focus {
+  border: 1.6px solid #43d0e3;
+  box-shadow: 0 1.5px 0 #43d0e366;
+}
+.modal-row:last-of-type { margin-bottom: 0; }
+
+.btn-cancelar, .btn-guardar {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 1.05em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.btn-cancelar {
+  background: #23232a;
+  color: #aaa;
+}
+.btn-cancelar:hover { background: #19191f; color: #ff6161; }
+.btn-guardar {
+  background: linear-gradient(90deg,#1edff8 0,#43d0e3 60%,#43e388 100%);
+  color: #222;
+  box-shadow: 0 2px 12px #1edff841;
+}
+.btn-guardar:hover {
+  background: #43d0e3;
+  color: #fff;
+  box-shadow: 0 2px 16px #43d0e366;
+}
+
+.cerrar-modal {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none;
+  color: #eee;
+  border: none;
+  font-size: 2.2em;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.18s;
+}
+.cerrar-modal:hover { color: #43d0e3; }
+
+.modal-error {
+  color: #ff6161;
+  font-size: .98em;
+  margin-top: 9px;
+  text-align: center;
+  min-height: 24px;
+}
+/* MODAL BORRAR PROVEEDOR - Responsive y similar a otros modales */
+.modal-mensaje {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0,0,0,0.79);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-mensaje.oculto {
+    display: none !important;
+}
+.modal-contenido {
+    background: #18181c;
+    border-radius: 20px;
+    box-shadow: 0 6px 28px #000a;
+    color: #fff;
+    min-width: 280px;
+    max-width: 94vw;
+    padding: 38px 24px 22px 24px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.modal-logo {
+    display: block;
+    margin: 0 auto 8px auto;
+    width: 68px; height: auto;
+    border-radius: 16px;
+}
+
+@media (max-width:600px) {
+    .modal-contenido {
+        padding: 18px 2vw 12px 2vw;
+        font-size: 1em;
+    }
+    .modal-logo { width: 52px; }
+}
+
+
+/* -------- Responsive --------- */
+@media (max-width: 500px) {
+    main { padding: 2vw 0; }
+    .tabla-lista th, .tabla-lista td { padding: 7px 3px; }
+    .modal-editar-content { padding: 6px 1vw 12px 1vw; }
+}
+@media (max-width: 600px) {
+  .modal-card-editar-proveedor { padding: 13px 1vw 7px 1vw; }
+  #modalEditarProveedor h2 { font-size: 1.13em; }
+  .logo-modal { width: 38px; }
+  .modal-row { flex-direction: column; gap:9px; }
+  .modal-col { min-width: 0; }
+}
+@media (max-width: 600px) {
+    .tabla-lista, .tabla-lista thead, .tabla-lista tbody, .tabla-lista tr, .tabla-lista th, .tabla-lista td {
+        display: block;
+        width: 100%;
+    }
+    .tabla-lista thead {
+        display: none;
+    }
+    .tabla-lista tr {
+        margin-bottom: 18px;
+        background: #191922;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px #0002;
+        padding: 8px 0;
+    }
+    .tabla-lista td {
+        padding: 8px 14px;
+        text-align: right;
+        position: relative;
+    }
+    .tabla-lista td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: #44dde9;
+    }
+}
+@media (max-width: 700px) {
+    #filtrosProveedor { flex-direction: column; gap: 9px;}
+    .tabla-lista { min-width: 660px; font-size: 0.97rem; }
+    .modal-editar-content { padding: 17px 4vw 20px 4vw; }
+}
+@media (max-width: 800px) {
+  .modal-row { flex-wrap:wrap; }
+  .modal-col { flex-basis: 45%; min-width: 180px;}
+}
+
+@media (max-width: 1000px) {
+    .tabla-lista th, .tabla-lista td {
+        font-size: 0.98em;
+        padding: 7px 5px;
+    }
+    .tabla-lista {
+        min-width: 640px;
+    }
+}
+@media (max-width: 1050px) {
+  .modal-card-editar-proveedor { max-width: 99vw; padding: 19px 2vw 14px 2vw; }
+  .modal-row { gap:12px; }
+}
+@media (max-width: 1100px) {
+    main { max-width: 99vw; padding: 10px 2vw; }
+    .tabla-lista { min-width: 800px; }
+}
+

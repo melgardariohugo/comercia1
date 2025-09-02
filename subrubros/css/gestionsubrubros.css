@@ -1,0 +1,163 @@
+body {
+    background: #18181c;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+
+.contenedor-busqueda-tabla {
+    max-width: 860px;
+    margin: 28px auto 0 auto;
+    display: flex;
+    justify-content: flex-start;
+}
+.tr-activa {
+    background: #232a38 !important;
+    outline: 2.5px solid #1abcff;
+    color: #fff;
+    transition: background 0.13s;
+}
+
+
+#buscador-subrubros {
+    width: 380px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.08em;
+    background: #222227;
+    color: #fff;
+    margin-bottom: 16px;
+    box-shadow: 0 3px 16px #0005;
+}
+
+.contenedor-tabla {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #222227;
+    border-radius: 18px;
+    padding: 12px 0 22px 0;
+    box-shadow: 0 4px 32px #0009;
+}
+
+#tabla-subrubros {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.02em;
+    margin: 0;
+}
+
+#tabla-subrubros th, #tabla-subrubros td {
+    padding: 13px 12px;
+    text-align: left;
+}
+
+#tabla-subrubros th {
+    background: #23232b;
+    color: #fff;
+    font-weight: bold;
+    border-bottom: 2px solid #30303c;
+}
+
+#tabla-subrubros tr {
+    background: #222227;
+    transition: background 0.12s;
+}
+
+#tabla-subrubros tr:hover {
+    background: #282834;
+}
+
+#tabla-subrubros td {
+    border-bottom: 1px solid #2b2b35;
+}
+
+#tabla-subrubros td:last-child {
+    text-align: right;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 1.32em;
+    vertical-align: middle;
+    transition: color 0.2s;
+}
+.icon-btn.edit { color: #1abcff; }
+.icon-btn.delete { color: #fff; }
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,20,25,0.91);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-contenido {
+    background: #20202b;
+    border-radius: 14px;
+    padding: 28px 34px 26px 34px;
+    min-width: 400px;
+    min-height: 220px;
+    box-shadow: 0 7px 36px #000b;
+    position: relative;
+}
+.modal-logo {
+    display: block;
+    margin: 0 auto 12px auto;
+    width: 68px; height: auto;
+    border-radius: 16px;
+}
+.modal-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+.modal-row input, .modal-row select {
+    flex: 1;
+    padding: 9px 12px;
+    background: #18181c;
+    color: #fff;
+    border: 1.3px solid #30303c;
+    border-radius: 8px;
+    font-size: 1em;
+}
+.modal-row input[disabled] {
+    opacity: 0.7;
+    background: #23232b;
+}
+.modal-acciones {
+    display: flex;
+    gap: 22px;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+.btn-guardar {
+    background: #1abcff;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 1.05em;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.18s;
+}
+.btn-guardar:hover { background: #148dcc; }
+.btn-cancelar {
+    background: #23232b;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 1.05em;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.18s;
+}
+.btn-cancelar:hover { background: #29293c; }

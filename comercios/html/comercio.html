@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comercios-DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso y mensaje emergente si no está logueado -->
+    <!-- Control de acceso -->
+    <script>
+        (function () {
+            function showEmergenteLogin(msj, ms = 2200) {
+                if (document.getElementById('emergente-login')) return;
+                const div = document.createElement('div');
+                div.id = 'emergente-login';
+                div.style.position = 'fixed';
+                div.style.top = '30%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%)';
+                div.style.background = '#18181c';
+                div.style.color = '#fff';
+                div.style.padding = '32px 36px 22px 36px';
+                div.style.borderRadius = '18px';
+                div.style.boxShadow = '0 8px 24px #0008';
+                div.style.fontSize = '1.23em';
+                div.style.zIndex = 99999;
+                div.style.textAlign = 'center';
+                div.style.border = '2.2px solid #e44343';
+                div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.remove();
+                    window.location.href = "../../login/html/login.html";
+                }, ms);
+            }
+            try {
+                const userRaw = localStorage.getItem('usuarioLogueado');
+                if (!userRaw) throw 1;
+                const user = JSON.parse(userRaw);
+                if (!user || Object.keys(user).length === 0) throw 1;
+            } catch {
+                document.addEventListener('DOMContentLoaded', function () {
+                    showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+                });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../shared/css/encabezados.css">
+    <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../css/comercio.css">
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+
+</head>
+
+<body>
+    <!-- HEADER igual para todos -->
+    <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" id="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'"
+                title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <span class="titulo-usuario">Comercio</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+
+    <main class="comercio-main">
+        <form id="formComercio" class="comercio-form" autocomplete="off">
+            <!-- Primera fila -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nro_comercio">N° Comercio</label>
+                    <input type="number" id="nro_comercio" name="nro_comercio" min="0" max="9999" maxlength="4"
+                        placeholder="N° Comercio" required>
+                </div>
+                <div class="form-group">
+                    <label for="nom_comercio">Nombre</label>
+                    <input type="text" id="nom_comercio" name="nom_comercio" maxlength="40"
+                        placeholder="Nombre de comercio" required>
+                </div>
+                <div class="form-group">
+                    <label for="razonsocial">Razón Social</label>
+                    <input type="text" id="razonsocial" name="razonsocial" maxlength="40" placeholder="Razón social"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="cuil">CUIL</label>
+                    <input type="text" id="cuil" name="cuil" maxlength="20" placeholder="CUIL" pattern="^\d{11}$"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="cuit">CUIT</label>
+                    <input type="text" id="cuit" name="cuit" maxlength="20" placeholder="CUIT" pattern="^\d{11}$"
+                        required>
+                </div>
+            </div>
+            <!-- Segunda fila -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" maxlength="120" placeholder="Dirección" required>
+                </div>
+                <div class="form-group">
+                    <label for="localidad">Localidad</label>
+                    <input type="text" id="localidad" name="localidad" maxlength="100" placeholder="Localidad" required>
+                </div>
+                <div class="form-group">
+                    <label for="partido">Partido</label>
+                    <input type="text" id="partido" name="partido" maxlength="120" placeholder="Partido" required>
+                </div>
+                <div class="form-group">
+                    <label for="provincia">Provincia</label>
+                    <input type="text" id="provincia" name="provincia" maxlength="120" placeholder="Provincia" required>
+                </div>
+                <div class="form-group">
+                    <label for="cod_postal">Cod. Postal</label>
+                    <input type="text" id="cod_postal" name="cod_postal" maxlength="10" placeholder="Código postal"
+                        required>
+                </div>
+            </div>
+            <!-- Tercera fila -->
+            <div class="form-row">
+                <div class="form-group form-wide">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" maxlength="120" placeholder="Correo electrónico"
+                        required>
+                </div>
+            </div>
+            <!-- Cuarta fila -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="responsable">Responsable</label>
+                    <input type="text" id="responsable" name="responsable" maxlength="40" placeholder="Responsable"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="nro_contacto">N° Contacto</label>
+                    <input type="text" id="nro_contacto" name="nro_contacto" maxlength="15" placeholder="N° de contacto"
+                        pattern="^\d+$" required>
+                </div>
+                <div class="form-group">
+                    <label for="nro_sucursal">N° Sucursal</label>
+                    <input type="number" id="nro_sucursal" name="nro_sucursal" min="0" max="99" maxlength="2"
+                        placeholder="Sucursal" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_alta">Fecha Alta</label>
+                    <input type="date" id="fecha_alta" name="fecha_alta" disabled>
+                </div>
+            </div>
+            <!-- Botones -->
+            <div class="form-botones">
+                <button type="submit" id="btnGuardar" class="btn-guardar">
+                    <!-- Icono guardar -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="#fff"
+                            stroke-width="2" />
+                        <path d="M17 21v-8H7v8" stroke="#888" stroke-width="2" />
+                    </svg>
+                    Guardar
+                </button>
+                <button type="button" id="btnGestComercio" class="btn-gest">
+                    <!-- Icono gestión -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="7" width="18" height="10" rx="2" stroke="#fff" stroke-width="2" />
+                        <path d="M8 11v2h8v-2" stroke="#888" stroke-width="2" />
+                    </svg>
+                    Gest-Comercio
+                </button>
+            </div>
+        </form>
+    </main>
+    <!-- Mensaje emergente -->
+    <script src="../js/comercio.js"></script>
+    <script src="../../shared/js/utilidadusuarios.js"></script>
+    <script src="../../shared/js/notify.js"></script>
+
+</body>
+
+</html>

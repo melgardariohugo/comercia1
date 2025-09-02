@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Subir PDF y recibir Excel</title>
+  <style>
+    body { background: #222; color: #e2e2e2; font-family: Arial; text-align: center; padding: 50px;}
+    input, button { padding: 8px 16px; margin: 10px; border-radius: 6px; }
+    .status { margin: 20px 0; font-weight: bold; color: #27ee7a; }
+  </style>
+</head>
+<body>
+  <h2>Importar PDF y Recibir Excel</h2>
+  <form id="pdfForm" enctype="multipart/form-data">
+    <input type="file" id="pdfInput" name="pdf" accept="application/pdf" required>
+    <button type="submit">Subir PDF</button>
+  </form>
+  <div class="status" id="status"></div>
+
+  <script>
+    document.getElementById('pdfForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const status = document.getElementById('status');
+      status.textContent = 'Procesando...';
+
+      const fileInput = document.getElementById('pdfInput');
+      if (!fileInput.files.length) {
+        status.textContent = 'Seleccione un archivo PDF.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('pdf', fileInput.files[0]); // <-- NOMBRE CORRECTO
+
+      try {
+        const response = await fetch('http://localhost:5001/procesar-pdf', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          status.textContent = 'Error en el procesamiento.';
+          return;
+        }
+
+        // Obtener el nombre sugerido
+        const disposition = response.headers.get('Content-Disposition');
+        let filename = "resultado.csv";
+        if (disposition && disposition.includes("filename=")) {
+          filename = disposition.split("filename=")[1].replace(/[";]/g, "");
+        }
+
+        const blob = await response.blob();
+        // Descargar el archivo
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 500);
+
+        status.textContent = "¡Descarga completada!";
+      } catch (err) {
+        status.textContent = 'Error de red o del servidor.';
+      }
+    });
+  </script>
+</body>
+</html>

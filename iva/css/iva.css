@@ -1,0 +1,102 @@
+body {
+    background: #18181c;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.main-iva {
+  max-width: 460px;
+  margin: 32px auto;
+  padding: 20px 20px 30px 20px;
+  background: #252525;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(108, 98, 98, 0.067);
+}
+
+.form-iva {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-bottom: 28px;
+  align-items: flex-end;
+}
+.form-iva div {
+  flex: 1 1 120px;
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+}
+.form-iva label {
+  font-size: 1.07em;
+  margin-bottom: 3px;
+  color: #d1d5d7;
+}
+.form-iva input {
+  font-size: 1.06em;
+  padding: 7px 8px;
+  border: 1px solid #aaa;
+  border-radius: 7px;
+  background: #252526;
+  transition: border 0.2s;
+}
+.valores{
+    color:#d1d5d7
+}
+.form-iva input:focus {
+  border-color: #0090c2;
+  outline: none;
+}
+.form-iva button {
+  padding: 10px 18px;
+  border: none;
+  background: #5c5d5e;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.form-iva button:hover {
+  background: #006a8e;
+}
+
+.seccion-lista-iva {
+  margin-top: 28px;
+  color:#d1d5d7
+}
+.seccion-lista-iva h4 {
+  font-size: 1.19em;
+  margin-bottom: 8px;
+  color:rgb(74, 76, 77)
+}
+.tabla-iva {
+  width: 100%;
+  border-collapse: collapse;
+  background: #3f4041;
+}
+.tabla-iva th, .tabla-iva td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 1.09em;
+}
+.tabla-iva th {
+  background: #333334;
+  color: #a6a9a9;
+}
+.tabla-iva tr:nth-child(even) td {
+  background: #202021;
+}
+@media (max-width: 600px) {
+  .main-iva {
+    max-width: 98vw;
+    padding: 6vw 2vw 8vw 2vw;
+  }
+  .form-iva, .seccion-lista-iva {
+    padding: 0;
+  }
+  .tabla-iva th, .tabla-iva td {
+    padding: 8px 2vw;
+    font-size: 0.97em;
+  }
+}

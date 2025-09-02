@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gest-de Proveedores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso y mensaje emergente si no está logueado -->
+<script>
+(function() {
+    // Función para mostrar mensaje emergente central
+    function showEmergenteLogin(msj, ms = 2200) {
+        // Evita duplicados
+        if (document.getElementById('emergente-login')) return;
+        // Crea el contenedor
+        const div = document.createElement('div');
+        div.id = 'emergente-login';
+        div.style.position = 'fixed';
+        div.style.top = '30%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = '#18181c';
+        div.style.color = '#fff';
+        div.style.padding = '32px 36px 22px 36px';
+        div.style.borderRadius = '18px';
+        div.style.boxShadow = '0 8px 24px #0008';
+        div.style.fontSize = '1.23em';
+        div.style.zIndex = 99999;
+        div.style.textAlign = 'center';
+        div.style.border = '2.2px solid #e44343';
+
+        // Ícono SVG de advertencia (opcional)
+        div.innerHTML = `
+            <div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div>
+            <div>${msj}</div>
+        `;
+        document.body.appendChild(div);
+        setTimeout(() => {
+            div.remove();
+            window.location.href = "login.html";
+        }, ms);
+    }
+
+    // Chequeo de usuario logueado
+    try {
+        const userRaw = localStorage.getItem('usuarioLogueado');
+        if (!userRaw) throw 1;
+        const user = JSON.parse(userRaw);
+        if (!user || Object.keys(user).length === 0) throw 1;
+    } catch {
+        // Mostrar mensaje emergente y redirigir tras 2 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+        });
+    }
+})();
+</script>
+ <link rel="stylesheet" href="../../shared/css/encabezados.css">
+       <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../css/proveedores.css">
+    <link rel="stylesheet" href="../css/gestionproveedores.css">
+</head>
+<body>
+    <!-- HEADER igual para todos -->
+    <div class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="logo-dhm" draggable="false">
+            <button class="btn-volver" id="btnVolver" title="Volver a Proveedores">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 19l-7-7 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+            <h5 class="titulo-usuario">Gestión de Proveedores</h5>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" fill="none" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </div>
+
+    <main>
+        <!-- Filtros -->
+        <form id="filtrosProveedor" autocomplete="off">
+            <div class="form-row" style="margin-bottom:10px;">
+                <div class="form-group" style="max-width:180px;">
+                    <input type="number" id="filtrar_nro_proveedor" placeholder="N° Proveedor">
+                </div>
+                <div class="form-group" style="max-width:220px;">
+                    <input type="text" id="filtrar_correo" placeholder="Correo">
+                </div>
+                <div class="form-group" style="flex:2 1 220px;">
+                    <input type="text" id="filtrar_nombre" placeholder="Nombre proveedor">
+                </div>
+                <div class="form-group" style="flex:0 0 120px;">
+                    <button type="submit" id="btnBuscar" class="btn-dark" style="width:100%;display:flex;align-items:center;justify-content:center;gap:7px;">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" stroke="#fff" stroke-width="2"/>
+                            <path d="M21 21l-4.3-4.3" stroke="#43d0e3" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Tabla de proveedores -->
+        <div class="tabla-contenedor" style="overflow-x:auto;margin-bottom:20px;">
+            <table id="tablaProveedores" class="tabla-lista">
+                <thead>
+                    <tr>
+                        <th class="ord-nro" data-ordenar="nro_proveedor">N°</th>
+                        <th class="ord-nombre" data-ordenar="nom_proveedor">Nombre</th>
+                        <th>Web</th>
+                        <th class="ord-correo" data-ordenar="correo">Correo</th>
+                        <th>Dirección</th>
+                        <th>Contacto</th>
+                        <th>Tel.</th>
+                        <th>Fecha Alta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyProveedores">
+                    <!-- Los proveedores se cargan aquí con JS -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Paginación -->
+        <div class="paginador" id="paginadorProveedores" style="display:flex;justify-content:center;align-items:center;gap:10px;">
+            <!-- Controles de paginación dinámicos JS -->
+        </div>
+    </main>
+    
+    <!-- MODAL EDITAR PROVEEDOR - Apaisado y Responsive -->
+    <div id="modalEditarProveedor" class="modal-oculto">
+      <div class="modal-card-editar-proveedor animate-modal">
+        <img src="../../../recursos/logos/carrito.png" class="logo-modal" alt="Logo DHM">
+        <h4>Editar Proveedor</h4>
+        <form id="formEditarProveedor" autocomplete="off" onsubmit="guardarEdicionProveedor(); return false;">
+          <input type="hidden" id="edit_Id_proveedor">
+          <div class="modal-row">
+            <div class="modal-col">
+              <label>N° Comercio</label>
+              <input type="number" id="edit_nro_comercio" required>
+            </div>
+            <div class="modal-col">
+              <label>N° Proveedor</label>
+              <input type="number" id="edit_nro_proveedor" required>
+            </div>
+            <div class="modal-col" style="flex:2">
+              <label>Nombre</label>
+              <input type="text" id="edit_nom_proveedor" maxlength="50" required>
+            </div>
+          </div>
+          <div class="modal-row">
+            <div class="modal-col">
+              <label>Web</label>
+              <input type="url" id="edit_web_proveedor" maxlength="100">
+            </div>
+            <div class="modal-col">
+              <label>Correo</label>
+              <input type="email" id="edit_correo" maxlength="160" required>
+            </div>
+            <div class="modal-col">
+              <label>Dirección</label>
+              <input type="text" id="edit_direccion" maxlength="200" required>
+            </div>
+          </div>
+          <div class="modal-row">
+            <div class="modal-col">
+              <label>Contacto</label>
+              <input type="text" id="edit_contacto" maxlength="50" required>
+            </div>
+            <div class="modal-col">
+              <label>Teléfono</label>
+              <input type="text" id="edit_tel_contacto" maxlength="15" required>
+            </div>
+            <div class="modal-col">
+              <label>Fecha Alta</label>
+              <input type="date" id="edit_fecha_alta" required>
+            </div>
+          </div>
+          <div class="modal-row" style="justify-content: flex-end; gap:12px;">
+            <button type="button" onclick="cerrarModalEditar()" class="btn-cancelar">Cancelar</button>
+            <button type="submit" class="btn-guardar">Guardar</button>
+          </div>
+          <div class="modal-error" id="modalProveedorError"></div>
+        </form>
+        <button class="cerrar-modal" onclick="cerrarModalEditar()" title="Cerrar">&times;</button>
+      </div>
+    </div>
+    <!-- MODAL CONFIRMAR BORRADO PROVEEDOR -->
+<div id="modalConfirmarBorrarProveedor" class="modal-mensaje oculto">
+    <div class="modal-contenido">
+        <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo" style="width:85px;height:auto;margin-bottom:16px;">
+        <div id="confirmarBorrarProveedorTexto" style="margin-bottom:22px; font-size:1.13em;">
+            ¿Seguro que desea borrar este proveedor?
+        </div>
+        <div style="display:flex;justify-content:center;gap:22px;">
+            <button id="btnConfirmarBorrarProveedor" class="btn-guardar" style="min-width:108px;">Sí, borrar</button>
+            <button id="btnCancelarBorrarProveedor" class="btn-cancelar" style="min-width:108px;">Cancelar</button>
+        </div>
+    </div>
+</div>
+     <script src="../../shared/js/utilidadusuarios.js"></script>
+     <script src="../../shared/js/notify.js"></script>
+     <script src="../JS/gestionproveedores.js"></script>
+ 
+</body>
+</html>
+
+
+
+
+
+   

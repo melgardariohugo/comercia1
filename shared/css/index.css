@@ -1,0 +1,121 @@
+/*index.css*/
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #101013;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #101013;
+    z-index: -1;
+}
+.inicio-form {
+    background: #18181c;
+    margin: 4vw auto;
+    max-width: 370px;
+    padding: 32px 28px 18px 28px;
+    border-radius: 22px;
+    border-left: 3px solid #fff2;
+    border-bottom: 3px solid #fff2;
+    box-shadow:
+        4px 10px 18px #32323a99,
+        0 8px 30px #0c0c10cc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Logo sin círculo ni efecto */
+.logo-sin-circulo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 17px;
+}
+.logo-img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    background: transparent;
+    border-radius: 20px;
+    box-shadow: none;
+    z-index: 2;
+}
+
+.frase {
+    margin-bottom: 18px;
+    color: #eee;
+    font-size: 1.05em;
+    opacity: 0.76;
+    text-shadow: 0 1px 4px #0009;
+    letter-spacing: 1.2px;
+    filter: blur(0.2px) brightness(1.08) grayscale(10%);
+    font-weight: 500;
+}
+.botones {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.btn {
+    padding: 10px 32px;
+    font-size: 1.01em;
+    font-weight: bold;
+    cursor: pointer;
+    background: #161a1d;
+    color: #f7f7f7;
+    border: 1.4px solid #4d5061;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #1a293d22;
+    transition: background 0.17s, border-color 0.17s, color 0.17s;
+    outline: none;    
+}
+.btn:focus,
+.btn:hover {
+      background: linear-gradient(90deg, #0d0d0d 0%, #494a49 100%);
+     color: #b6d6e6;
+     border-color: #ebeef0;
+     box-shadow: 0 2px 12px #8d9bae80;
+}
+
+.datos-contacto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0 0 0;
+}
+.icon-mail, .icon-phone {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+.icon-mail svg, .icon-phone svg {
+    display: block;
+}
+.correo, .telefono {
+    color: #a9acb6;
+    font-size: 0.98em;
+    letter-spacing: 0.8px;
+}
+@media (max-width: 520px) {
+    .inicio-form {
+        padding: 20px 7vw 12px 7vw;
+        max-width: 97vw;
+        min-width: 0;
+    }
+    .logo-img {
+        width: 56px; height: 56px;
+    }
+    .frase {
+        font-size: 0.98em;
+    }
+}

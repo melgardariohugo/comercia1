@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Importar Artículos - DHM SISTEMAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Estilos DHM -->
+  <link rel="stylesheet" href="../../shared/css/encabezados.css">
+  <link rel="stylesheet" href="../../shared/css/notify.css">
+  <link rel="stylesheet" href="../css/importarfile.css">
+  <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+  <!-- CDN SheetJS para Excel/CSV -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header class="usuario-header">
+    <div class="header-left">
+      <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+      <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <span class="titulo-usuario">Importar Artículos</span>
+    </div>
+    <div class="header-right usuario-info">
+      <span class="icono-usuario">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+        </svg>
+      </span>
+      <span id="datos-usuario"></span>
+    </div>
+  </header>
+  <main>
+    <div class="importar-container">
+      <h2>Importar Artículos</h2>
+      <form id="form-importar" autocomplete="off">
+        <!-- FILA DE BUSQUEDA Y COMBO DE PROVEEDOR -->
+        <div class="proveedor-busqueda-row">
+          <input type="text" id="busquedaProveedor" placeholder="Buscar proveedor (nro/nombre)..." class="input-proveedor" autocomplete="off" />
+          <select id="comboProveedor" class="combo-proveedor">
+            <option value="">Seleccione un proveedor...</option>
+          </select>
+        </div>
+        <!-- SELECCION DE ARCHIVO -->
+        <div class="form-row">
+          <label for="tipo_archivo">Tipo de archivo:</label>
+          <select id="tipo_archivo">
+            <option value="excel">Excel / CSV</option>
+          </select>
+          <label for="archivo" class="label-chico">Archivo:</label>
+          <input type="file" id="archivo" accept=".xls,.xlsx,.csv">
+        </div>
+        <!-- MAPEOS DE COLUMNAS -->
+        <div class="form-row flex-combos">
+          <select id="col_cod_barra"></select>
+          <select id="col_cod_interno"></select>
+          <select id="col_articulo"></select>
+          <select id="col_precio"></select>
+        </div>
+        <!-- OPCION IVA -->
+        <div class="form-row form-iva">
+          <label style="margin-bottom:0;">
+            <input type="checkbox" id="chk-sin-iva" style="transform: scale(1.2);margin-right:8px;">
+            Los precios NO incluyen IVA
+          </label>
+          <select id="combo-iva" disabled style="margin-left:18px; min-width:110px;">
+            <option value="21">IVA 21%</option>
+            <option value="10.5">IVA 10.5%</option>
+            <option value="27">IVA 27%</option>
+            <option value="0">IVA 0%</option>
+          </select>
+        </div>
+        <!-- BOTONES PROCESAR Y DESCARGAR -->
+        <div class="form-row derecha">
+          <button type="button" id="btn-procesar" disabled>Procesar Archivo</button>
+          <button type="button" id="btn-descargar" disabled style="margin-left:12px;">Descargar CSV</button>
+        </div>
+      </form>
+      <!-- PREVIEW ORIGINAL DEL ARCHIVO -->
+      <div id="preview-original" class="tabla-scroll"></div>
+      <!-- TABLA FILTRADA Y EXPORTABLE -->
+      <div id="resultado-import" class="tabla-scroll"></div>
+    </div>
+  </main>
+  <!-- Notificaciones y utilidades -->
+  <script src="../../shared/js/notify.js"></script>
+  <script src="../../shared/js/utilidadusuarios.js"></script>
+  <script src="../js/importarfile.js"></script>
+</body>
+</html>

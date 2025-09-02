@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gest-Rubros - DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso y mensaje emergente si no está logueado -->
+<script>
+(function() {
+    // Función para mostrar mensaje emergente central
+    function showEmergenteLogin(msj, ms = 2200) {
+        // Evita duplicados
+        if (document.getElementById('emergente-login')) return;
+        // Crea el contenedor
+        const div = document.createElement('div');
+        div.id = 'emergente-login';
+        div.style.position = 'fixed';
+        div.style.top = '30%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = '#18181c';
+        div.style.color = '#fff';
+        div.style.padding = '32px 36px 22px 36px';
+        div.style.borderRadius = '18px';
+        div.style.boxShadow = '0 8px 24px #0008';
+        div.style.fontSize = '1.23em';
+        div.style.zIndex = 99999;
+        div.style.textAlign = 'center';
+        div.style.border = '2.2px solid #e44343';
+
+        // Ícono SVG de advertencia (opcional)
+        div.innerHTML = `
+            <div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div>
+            <div>${msj}</div>
+        `;
+        document.body.appendChild(div);
+        setTimeout(() => {
+            div.remove();
+            window.location.href = "login.html";
+        }, ms);
+    }
+
+    // Chequeo de usuario logueado
+    try {
+        const userRaw = localStorage.getItem('usuarioLogueado');
+        if (!userRaw) throw 1;
+        const user = JSON.parse(userRaw);
+        if (!user || Object.keys(user).length === 0) throw 1;
+    } catch {
+        // Mostrar mensaje emergente y redirigir tras 2 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+        });
+    }
+})();
+</script>
+    <link rel="stylesheet" href="../../shared/css/encabezados.css">
+    <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../CSS/gestionrubros.css"> 
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" onclick="window.location.href='rubros.html'" title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <span class="titulo-usuario">Gest-Rubros</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c"/>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2"/>
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+
+   <main class="contenedor-rubros">
+  <div class="barra-busqueda">
+    <input type="text" id="busquedaRubros" placeholder="Buscar por número, código o nombre...">
+  </div>
+
+  <table id="tablaRubros" class="tabla-rubros">
+    <thead>
+      <tr>
+        <th>Nº Rubro</th>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaRubrosBody">
+      <!-- Se carga por JS -->
+    </tbody>
+  </table>
+</main>
+
+<!-- Modal de Edición -->
+<div id="modalEditarRubro" class="modal-oscuro oculto">
+  <div class="modal-contenido">
+    <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="logo-modal">
+    <h2>Editar Rubro</h2>
+    <form id="formEditarRubro">
+      <input type="hidden" id="edit_id_rubro">
+      <label>Código:</label>
+      <input type="text" id="edit_cod_rubro" required>
+      <label>Nombre del rubro:</label>
+      <input type="text" id="edit_rubro" required>
+
+      <div class="botones-modal">
+        <button type="submit" class="btn-guardar">Guardar</button>
+        <button type="button" class="btn-cancelar" onclick="cerrarModalEditar()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- MODAL CONFIRMAR BORRADO RUBRO -->
+<div id="modalConfirmarBorrarRubro" class="modal-oscuro oculto">
+  <div class="modal-contenido">
+    <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="logo-modal">
+    <h2 id="textoConfirmarBorrarRubro" style="margin-bottom: 18px;">¿Seguro que desea borrar este rubro?</h2>
+    <div class="botones-modal" style="margin-top: 10px;">
+      <button id="btnConfirmarBorrarRubro" class="btn-guardar" style="margin-right:10px;">Sí, borrar</button>
+      <button id="btnCancelarBorrarRubro" class="btn-cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+     <script src="../../shared/js/utilidadusuarios.js"></script>
+     <script src="../../shared/js/notify.js"></script>
+    <script src="../js/gestionrubros.js"></script>
+   
+</body>
+
+
+
+ 

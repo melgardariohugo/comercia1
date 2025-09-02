@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login DHM-SISTEMAS</title>
+
+
+       <link rel="stylesheet" href="../../shared/css/notify.css">
+     <link rel="stylesheet" href="../css/login.css">
+      <link rel="shortcut icon" href="../../../recursos/logos/dhm-logo.png" type="image/png">
+</head>
+<body>
+  <div class="background"></div>
+  <form class="login-form" id="loginForm" autocomplete="off">
+    <div class="form-logo">
+      <img src="../../../recursos/logos/dhm-logo.png" alt="DHM Sistemas" class="logo-solo" />
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <span class="input-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="white" stroke-width="2" fill="black"/><path d="M4 20c0-4 16-4 16 0" stroke="white" stroke-width="2" fill="none"/></svg>
+        </span>
+        <input type="text" id="usuario" name="usuario" placeholder="Usuario o Correo" maxlength="40" required>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2" stroke="white" stroke-width="2" fill="black"/><path d="M12 16v2" stroke="white" stroke-width="2"/><circle cx="12" cy="13" r="1" fill="white"/></svg>
+        </span>
+        <input type="password" id="clave" name="clave" placeholder="Clave" maxlength="12" required>
+        <button type="button" class="show-hide" tabindex="-1" aria-label="Mostrar/Ocultar Clave">&#128065;</button>
+      </div>
+    </div>
+    <div class="button-row">
+      <button type="submit" id="btnIniciar" class="btn">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2" fill="none"/></svg>
+        </span>
+        Iniciar
+      </button>
+      <button type="button" id="btnRegresar" class="btn">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" stroke="white" stroke-width="2" fill="none"/></svg>
+        </span>
+        Regresar
+      </button>
+    </div>
+    <div class="form-link">
+      <a href="recuperarclave.html" id="recuperarLink">¿Te olvidaste tu clave?</a>
+    </div>
+  </form>
+  <script src="../../shared/js/notify.js"></script>
+    <script src="../JS/login.js"></script>
+  </body>
+</html>
+
+
+
+
+ 

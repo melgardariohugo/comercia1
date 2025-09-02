@@ -1,0 +1,311 @@
+<!-- frontend/articulofraccionmanual/html/articulofraccioncm.html-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Articulos-DHM SISTEMAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Control de acceso -->
+  <script>
+    (function () {
+      function showEmergenteLogin(msj, ms = 2200) {
+        if (document.getElementById('emergente-login')) return;
+        const div = document.createElement('div');
+        div.id = 'emergente-login';
+        div.style.position = 'fixed';
+        div.style.top = '30%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = '#18181c';
+        div.style.color = '#fff';
+        div.style.padding = '32px 36px 22px 36px';
+        div.style.borderRadius = '18px';
+        div.style.boxShadow = '0 8px 24px #0008';
+        div.style.fontSize = '1.23em';
+        div.style.zIndex = 99999;
+        div.style.textAlign = 'center';
+        div.style.border = '2.2px solid #e44343';
+        div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+        document.body.appendChild(div);
+        setTimeout(() => {
+          div.remove();
+          window.location.href = "login.html";
+        }, ms);
+      }
+      try {
+        const userRaw = localStorage.getItem('usuarioLogueado');
+        if (!userRaw) throw 1;
+        const user = JSON.parse(userRaw);
+        if (!user || Object.keys(user).length === 0) throw 1;
+      } catch {
+        document.addEventListener('DOMContentLoaded', function () {
+          showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+        });
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../shared/css/encabezados.css">
+  <link rel="stylesheet" href="../../shared/css/notify.css">
+  <link rel="stylesheet" href="../../shared/css/navegarcampos.css">
+  <link rel="stylesheet" href="../css/articulofraccioncm.css">
+  <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+
+
+<body>
+  <header class="usuario-header">
+    <div class="header-left">
+      <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+      <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <span class="titulo-usuario">Carga Articulo</span>
+    </div>
+    <div class="header-right usuario-info">
+      <span class="icono-usuario">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+        </svg>
+      </span>
+      <span id="datos-usuario"></span>
+    </div>
+  </header>
+  <!--- FORMULARIO GRAL-->
+  <form class="formulario-articulos-fraccionados" id="formulario-articulos">
+    <!---PRIMER RENGLON-->
+    <input type="text" name="cod_barra" class="clase-general" id="cod-barra" placeholder="Cod_barra"
+      style="width:18ch;">
+
+    <input type="text" name="cod_interno" class="clase-general" id="cod-interno" placeholder="Cod_interno"
+      style="width:18ch;">
+
+    <input type="text" name="proveedor" class="clase-general" id="proveedor" placeholder="Proveedor"
+      style="width:30ch;">
+
+    <input type="text" name="rubro" class="clase-general" id="rubro" placeholder="Rubro" style="width:31ch;">
+
+    <input type="text" name="subrubro" class="clase-general" id="subrubro" placeholder="Sub Rubro" style="width:32ch;">
+    <!---FIN PRIMER RENGLON-->
+    <!---SEGUNDO RENGLON-->
+    <div class="segundo-renglon">
+      <input type="text" name="articulo" class="clase-general" id="articulo" placeholder="Articulo"
+        style="width: 117ch;">
+
+      <input type="number" name="unidad" class="clase-general" id="unidad" placeholder="Cant" style="width: 10ch;">
+
+      <input type="text" name="medida" class="clase-general" id="medida" placeholder="Medida" style="width: 11ch;">
+      <!---FIN SEGUNDO RENGLON-->
+      <!---TERCER RENGLON-->
+      <div class="tercer-renglon">
+        <input type="text" name="precio_costo" class="clase-general" id="precio_costo" placeholder="Precio Costo"
+          style="width: 25ch;">
+
+        <input type="text" name="iva" class="clase-general" id="iva" placeholder="Iva" style="width: 10ch;">
+
+        <input type="text" name="precio_civa" class="clase-general" id="precio_civa" placeholder="Precio c/Iva"
+          style="width: 26ch;">
+
+        <input type="text" name="por_ganancia" class="clase-general" id="por_ganancia" placeholder="% Gcia" style="width: 10ch;">
+
+        <input type="text" name="precio_venta" class="clase-general" id="precio_venta" placeholder="Precio Venta"
+          style="width: 26ch;">
+
+
+        <!---BOTONES DE ACCION DE ARTICULOS-->
+        <button type="button" class="btn-articulo" id="btn-guardar-articulo" data-accion="1" title="Guardar">
+          <!-- Ícono Guardar (disk/floppy) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#28c76f" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z" stroke="#28c76f" stroke-width="2"
+              fill="none" />
+            <rect x="8" y="15" width="8" height="2" rx="1" fill="#28c76f" />
+            <rect x="8" y="7" width="8" height="6" rx="1" stroke="#28c76f" fill="none" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-nuevo-articulo" data-accion="2" title="Nuevo registro">
+          <!-- Ícono Nuevo (plus) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#00cfe8" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="#00cfe8" stroke-width="2" fill="none" />
+            <line x1="12" y1="8" x2="12" y2="16" stroke="#00cfe8" stroke-width="2" />
+            <line x1="8" y1="12" x2="16" y2="12" stroke="#00cfe8" stroke-width="2" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-editar-articulo" data-accion="3" title="Modificar">
+          <!-- Ícono Modificar (edit/pencil) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ff9f43" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3l-11 11-4 1 1-4 11-11z" stroke="#ff9f43" stroke-width="2"
+              fill="none" />
+            <path d="M13.5 6.5l4 4" stroke="#ff9f43" stroke-width="2" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-borrar-articulo" data-accion="4" title="Borrar">
+          <!-- Ícono Borrar (trash) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ea5455" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="6" width="18" height="15" rx="2" stroke="#ea5455" stroke-width="2" fill="none" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#ea5455" stroke-width="2" />
+            <line x1="10" y1="11" x2="10" y2="17" stroke="#ea5455" stroke-width="2" />
+            <line x1="14" y1="11" x2="14" y2="17" stroke="#ea5455" stroke-width="2" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-limpiar-todo" data-accion="5" title="Limpiar">
+          <!-- Ícono Limpiar (broom/clear) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#7367f0" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 19l7-7m5-5l6 6-7 7-6-6 7-7z" stroke="#7367f0" stroke-width="2" fill="none" />
+            <path d="M9 15l6-6" stroke="#7367f0" stroke-width="2" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-listado-articulo" data-accion="6" title="Listar Articulos">
+          <!-- Ícono listado (lista/checklist) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#0090ff" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="6" width="16" height="2" rx="1" fill="#0090ff" />
+            <rect x="4" y="11" width="16" height="2" rx="1" fill="#0090ff" />
+            <rect x="4" y="16" width="16" height="2" rx="1" fill="#0090ff" />
+          </svg>
+        </button>
+        <button type="button" class="btn-articulo" id="btn-fraccionar-articulo" data-accion="7" title="Fraccionar">
+          <!-- Ícono balanza -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffb300" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3v2M6 5l-3 7h6l-3-7zM18 5l3 7h-6l3-7zM4 12v1a4 4 0 0 0 8 0v-1M20 12v1a4 4 0 0 1-8 0v-1"
+              stroke="#ffb300" stroke-width="2" fill="none" />
+            <rect x="9" y="18" width="6" height="2" rx="1" fill="#ffb300" />
+            <rect x="10.5" y="14" width="3" height="4" rx="1.2" fill="#222" />
+          </svg>
+        </button>
+        <!---FIN DE BOTONES-->
+      </div>
+      <!---FIN DE TERCER RENGLON-->
+
+      <!--CAMPOS DE FRACCIONES-->
+      <div class="articulo-fraccionado">
+        <h4 class="titulo-fraccionado">Fracciones del Artículo</h4>
+
+        <!---CUARTO RENGLON-->
+        <div class="cuarto-renglon">
+          <select name="fraccion" class="clase-general" id="fraccion-frac" style="width: 20ch;">
+            <option value="">Fracción</option>
+          </select>
+          <div id="art-counts"
+            style="display:inline-flex; gap:14px; align-items:center; margin-left:12px; color:#9bd1ff; font-size:14px;">
+            <span>Cant/Art: <b id="count-puros">0</b></span>
+            <span>Can/Frac: <b id="count-frac">0</b></span>
+          </div>
+
+          <!-- Controles de redondeo (FRACCIÓN y FINAL) -->
+          <div id="redondeo-controles"
+            style="display:flex; gap:22px; align-items:center; margin-top:10px; flex-wrap:wrap;">
+
+            <!-- Redondeo para PRECIO DE LA FRACCIÓN -->
+            <div
+              style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; border:1px solid #2a4f80; padding:8px 10px; border-radius:8px;">
+              <strong style="color:#9bd1ff;">Redondeo Fracción</strong>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                <input type="checkbox" id="redondeoF-activo" /> Activar
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                Paso:
+                <select id="redondeoF-step" class="clase-general" style="width: 10ch;">
+                  <option value="1">1</option>
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                Modo:
+                <select id="redondeoF-modo" class="clase-general" style="width: 16ch;">
+                  <option value="nearest" selected>Al más cercano</option>
+                  <option value="up">Hacia arriba</option>
+                  <option value="down">Hacia abajo</option>
+                </select>
+              </label>
+            </div>
+
+            <!-- Redondeo para PRECIO FINAL -->
+            <div
+              style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; border:1px solid #2a4f80; padding:8px 10px; border-radius:8px;">
+              <strong style="color:#9bd1ff;">Redondeo Precio Final</strong>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                <input type="checkbox" id="redondeoV-activo" /> Activar
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                Paso:
+                <select id="redondeoV-step" class="clase-general" style="width: 10ch;">
+                  <option value="1">1</option>
+                  <option value="5" selected>5</option>
+                  <option value="10">10</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; color:#bcd7ff;">
+                Modo:
+                <select id="redondeoV-modo" class="clase-general" style="width: 16ch;">
+                  <option value="nearest" selected>Al más cercano</option>
+                  <option value="up">Hacia arriba</option>
+                  <option value="down">Hacia abajo</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <input type="number" name="can_frac" class="clase-general" id="cant-frac" placeholder="C/Frac"
+            style="width: 12ch;">
+          <input type="number" name="precio_frac" class="clase-general" id="precio-frac" placeholder="Prec/Frac"
+            style="width: 26ch;">
+          <select name="porcentaje_gcia-frac" class="clase-general" id="gan-fraccion" style="width: 15ch;">
+            <option value="">% Gcia</option>
+          </select>
+          <input type="number" name="precio_frac_final" class="clase-general" id="precio-final-frac"
+            placeholder="Prec/Final/Frac" style="width: 26ch;">
+
+          <!-- BOTONES DE FRACCIONES-->
+          <button type="button" class="btn-articulo" id="btn-guardar-fraccion" data-accion="8" title="Guardar Fracción">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#28c76f" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z" stroke="#28c76f" stroke-width="2"
+                fill="none" />
+              <rect x="8" y="15" width="8" height="2" rx="1" fill="#28c76f" />
+              <rect x="8" y="7" width="8" height="6" rx="1" stroke="#28c76f" fill="none" />
+            </svg>
+          </button>
+          <button type="button" class="btn-articulo" id="btn-nueva-fraccion" data-accion="9" title="Nuevo fraccion">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#00cfe8" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="#00cfe8" stroke-width="2" fill="none" />
+              <line x1="12" y1="8" x2="12" y2="16" stroke="#00cfe8" stroke-width="2" />
+              <line x1="8" y1="12" x2="16" y2="12" stroke="#00cfe8" stroke-width="2" />
+            </svg>
+          </button>
+          <button type="button" class="btn-articulo" id="btn-listado-fraccion" data-accion="10"
+            title="Listar Fracciones">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0090ff" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="6" width="16" height="2" rx="1" fill="#0090ff" />
+              <rect x="4" y="11" width="16" height="2" rx="1" fill="#0090ff" />
+              <rect x="4" y="16" width="16" height="2" rx="1" fill="#0090ff" />
+            </svg>
+          </button>
+          <!---FIN DE BOTONES DE FRACCIONES------>
+        </div>
+        <!---FIN DE FRACCIONES------>
+  </form>
+  <!-- LISTADO DE ARTICULOS PUROS(oculto por defecto) -->
+  <div id="listado-articulos-container" tabindex="0" style="display:none;   overflow-x:auto;   margin-top:20px;"></div>
+
+  <!---FIN FORMULARIO GRAL-->
+
+
+  <script src="../../shared/js/utilidadusuarios.js"></script>
+  <script src="../../shared/js/notify.js"></script>
+  <script src="../../shared/js/navegarcampos.js"></script>
+  <script src="../../shared/js/calculadorPreciosarticuloPuro.js"></script>
+  <script src="../../shared/js/limpiarFormularios.js"></script>
+  <script src="../../shared/js/limpiarCamposIdFormularios.js"></script>
+  <script src="../js/articulofraccioncm.js"></script>
+
+
+</body>
+
+</html>

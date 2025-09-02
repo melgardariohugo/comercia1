@@ -1,0 +1,207 @@
+<!--//frontend/articulomanual/html/articulocm.html-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Articulos-DHM SISTEMAS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Control de acceso -->
+  <script>
+    (function () {
+      function showEmergenteLogin(msj, ms = 2200) {
+        if (document.getElementById('emergente-login')) return;
+        const div = document.createElement('div');
+        div.id = 'emergente-login';
+        div.style.position = 'fixed';
+        div.style.top = '30%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = '#18181c';
+        div.style.color = '#fff';
+        div.style.padding = '32px 36px 22px 36px';
+        div.style.borderRadius = '18px';
+        div.style.boxShadow = '0 8px 24px #0008';
+        div.style.fontSize = '1.23em';
+        div.style.zIndex = 99999;
+        div.style.textAlign = 'center';
+        div.style.border = '2.2px solid #e44343';
+        div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+        document.body.appendChild(div);
+        setTimeout(() => {
+          div.remove();
+          window.location.href = "login.html";
+        }, ms);
+      }
+      try {
+        const userRaw = localStorage.getItem('usuarioLogueado');
+        if (!userRaw) throw 1;
+        const user = JSON.parse(userRaw);
+        if (!user || Object.keys(user).length === 0) throw 1;
+      } catch {
+        document.addEventListener('DOMContentLoaded', function () {
+          showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+        });
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../shared/css/encabezados.css">
+  <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../../shared/css/navegarcampos.css">
+  <link rel="stylesheet" href="../css/articulocm.css">
+  <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+
+<body>
+  <header class="usuario-header">
+    <div class="header-left">
+      <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+      <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <span class="titulo-usuario">Carga Articulo</span>
+    </div>
+    <div class="header-right usuario-info">
+      <span class="icono-usuario">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+        </svg>
+      </span>
+      <span id="datos-usuario"></span>
+    </div>
+  </header>
+  <!--- FORMULARIO GRAL-->
+  <form class="formulario-articulos" id="formulario-articulos">
+    <!---PRIMER RENGLON-->
+    <select class="clase-general" name="Proveedores" id="combo-proveedores" data-ayuda="Selecciona Proveedor" style="width: 34ch;"></select>
+    <select class="clase-general" name="Rubros" id="combo-rubros" data-ayuda="Selecciona Rubro"style="width: 34ch;"></select>
+    <select class="clase-general" name="SubRubros" id="combo-subrubros" data-ayuda="Selecciona SubRubro" style="width: 34ch;"></select>
+    <input type="text" name="cod_barra" class="clase-general" id="cod-barra" placeholder="Cod_barra" data-ayuda="Ingrese Cod-barra" 
+      style="width:20ch;">
+    <input type="text" name="cod_interno" class="clase-general" id="cod-interno" placeholder="Cod_interno" data-ayuda="Ingrese Cod-interno"
+      style="width:19ch;">
+    <!---FIN PRIMER RENGLON-->
+    <!---SEGUNDO RENGLON-->
+    <div class="segundo-renglon">
+      <input type="text" name="articulo" class="clase-general" id="articulo" placeholder="Articulo" data-ayuda="Ingrese Articulo"
+        style="width: 117ch;">
+      <input type="number" name="valor" min="1" value="1" 
+      class="clase-general" name="unidad"  id="unidad-articulo" data-ayuda="Unidad Articulo" style="width:8ch;">
+      <select name="medida" class="clase-general" data-ayuda="Medidas Unidad" id="medida-articulo" style="width:18ch;">
+        <option>Sin Medida</option>
+        <option>Kilos</option>
+        <option>Litros</option>
+        <option>Metros</option>
+        <option>Unidad</option>
+      </select>
+    </div>
+    <!---FIN SEGUNDO RENGLON-->
+    <!---TERCER RENGLON-->
+    <div class="tercer-renglon">
+      <input type="number" name="precio precio-costo" class="clase-general" id="precio-costo" step="0.01"
+        placeholder="Precio Costo" data-ayuda="Precio Costo" style="width: 25ch;">
+      <select name="iva" class="clase-general" id="iva-articulo" data-ayuda="Iva" style="width: 10ch;">
+      </select>
+      <input type="number" name="precio-iva" class="clase-general" id="precio-civa" data-ayuda="Precio Iva" placeholder="Precio c/IVA"
+        step="0.01" style="width: 26ch;">
+      <select name="ganancia" class="clase-general" id="por-gan-articulo" data-ayuda="% Gcia" style="width: 13ch;">
+        <option>% Gcia</option>
+      </select>
+      <input type="number" name="precio-venta" class="clase-general" id="precio-venta-articulo"
+        placeholder="Precio Venta" step="0.01" data-ayuda="Precio Venta" style="width: 26ch;">
+       <label style="margin-left:10px; color:rgb(104, 107, 108)">
+         <input type="checkbox" id="modo-inverso" > Calcular desde precio de venta
+        </label>
+     </div> 
+
+
+      <!---BOTONES DE ACCION DE ARTICULOS-->
+    <div>
+      <button type="button" class="btn-articulo" id="btn-guardar-articulo" data-accion="1" title="Guardar">
+        <!-- Ícono Guardar (disk/floppy) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#28c76f" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z" stroke="#28c76f" stroke-width="2"
+            fill="none" />
+          <rect x="8" y="15" width="8" height="2" rx="1" fill="#28c76f" />
+          <rect x="8" y="7" width="8" height="6" rx="1" stroke="#28c76f" fill="none" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-nuevo-articulo" data-accion="2" title="Nuevo registro">
+        <!-- Ícono Nuevo (plus) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#00cfe8" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#00cfe8" stroke-width="2" fill="none" />
+          <line x1="12" y1="8" x2="12" y2="16" stroke="#00cfe8" stroke-width="2" />
+          <line x1="8" y1="12" x2="16" y2="12" stroke="#00cfe8" stroke-width="2" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-editar-articulo" data-accion="3" title="Modificar">
+        <!-- Ícono Modificar (edit/pencil) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#ff9f43" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3l-11 11-4 1 1-4 11-11z" stroke="#ff9f43" stroke-width="2"
+            fill="none" />
+          <path d="M13.5 6.5l4 4" stroke="#ff9f43" stroke-width="2" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-borrar-articulo" data-accion="4" title="Borrar">
+        <!-- Ícono Borrar (trash) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#ea5455" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="6" width="18" height="15" rx="2" stroke="#ea5455" stroke-width="2" fill="none" />
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#ea5455" stroke-width="2" />
+          <line x1="10" y1="11" x2="10" y2="17" stroke="#ea5455" stroke-width="2" />
+          <line x1="14" y1="11" x2="14" y2="17" stroke="#ea5455" stroke-width="2" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-limpiar-todo" data-accion="5" title="Limpiar">
+        <!-- Ícono Limpiar (broom/clear) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#7367f0" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 19l7-7m5-5l6 6-7 7-6-6 7-7z" stroke="#7367f0" stroke-width="2" fill="none" />
+          <path d="M9 15l6-6" stroke="#7367f0" stroke-width="2" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-listado-articulo" data-accion="6" title="Listar Articulos">
+        <!-- Ícono listado (lista/checklist) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#0090ff" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="16" height="2" rx="1" fill="#0090ff" />
+          <rect x="4" y="11" width="16" height="2" rx="1" fill="#0090ff" />
+          <rect x="4" y="16" width="16" height="2" rx="1" fill="#0090ff" />
+        </svg>
+      </button>
+      <button type="button" class="btn-articulo" id="btn-fraccionar-articulo" data-accion="7" title="Fraccionar">
+        <!-- Ícono balanza -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffb300" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3v2M6 5l-3 7h6l-3-7zM18 5l3 7h-6l3-7zM4 12v1a4 4 0 0 0 8 0v-1M20 12v1a4 4 0 0 1-8 0v-1"
+            stroke="#ffb300" stroke-width="2" fill="none" />
+          <rect x="9" y="18" width="6" height="2" rx="1" fill="#ffb300" />
+          <rect x="10.5" y="14" width="3" height="4" rx="1.2" fill="#222" />
+        </svg>
+      </button>
+      <!---FIN DE BOTONES-->
+    </div>
+    <!---FIN DE TERCER RENGLON-->
+
+
+  </form>
+  <!-- LISTADO DE ARTICULOS PUROS(oculto por defecto) -->
+  <div id="listado-articulos-container" tabindex="0" style="display:none;   overflow-x:auto;   margin-top:20px;"></div>
+
+  <!---FIN FORMULARIO GRAL-->
+
+
+  <script src="../../shared/js/utilidadusuarios.js"></script>
+  <script src="../../shared/js/notify.js"></script>
+  <script src="../../shared/js/navegarcampos.js"></script>
+  <script src="../../shared/js/calculadorPreciosarticuloPuro.js"></script>
+  <script src="../../shared/js/limpiarFormularios.js"></script>
+  <script src="../../shared/js/limpiarCamposIdFormularios.js"></script>
+  <script src="../js/articulocm.js"></script>
+
+
+
+</body>
+
+</html>

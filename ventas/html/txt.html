@@ -1,0 +1,81 @@
+<<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iva - DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso -->
+    <script>
+        (function () {
+            function showEmergenteLogin(msj, ms = 2200) {
+                if (document.getElementById('emergente-login')) return;
+                const div = document.createElement('div');
+                div.id = 'emergente-login';
+                div.style.position = 'fixed';
+                div.style.top = '30%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%)';
+                div.style.background = '#18181c';
+                div.style.color = '#fff';
+                div.style.padding = '32px 36px 22px 36px';
+                div.style.borderRadius = '18px';
+                div.style.boxShadow = '0 8px 24px #0008';
+                div.style.fontSize = '1.23em';
+                div.style.zIndex = 99999;
+                div.style.textAlign = 'center';
+                div.style.border = '2.2px solid #e44343';
+                div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.remove();
+                    window.location.href = "login.html";
+                }, ms);
+            }
+            try {
+                const userRaw = localStorage.getItem('usuarioLogueado');
+                if (!userRaw) throw 1;
+                const user = JSON.parse(userRaw);
+                if (!user || Object.keys(user).length === 0) throw 1;
+            } catch {
+                document.addEventListener('DOMContentLoaded', function () {
+                    showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+                });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../shared/css/encabezados.css">
+    <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+
+<body>
+    <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <span class="titulo-usuario">Iva</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+
+
+     <script src="../../shared/js/utilidadusuarios.js"></script>
+     <script src="../../shared/js/notify.js"></script>
+    
+   
+   </body>
+</html>

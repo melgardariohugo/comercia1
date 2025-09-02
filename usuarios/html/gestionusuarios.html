@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gest-de Usuarios - DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Control de acceso -->
+    <script>
+        (function () {
+            function showEmergenteLogin(msj, ms = 2200) {
+                if (document.getElementById('emergente-login')) return;
+                const div = document.createElement('div');
+                div.id = 'emergente-login';
+                div.style.position = 'fixed';
+                div.style.top = '30%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%)';
+                div.style.background = '#18181c';
+                div.style.color = '#fff';
+                div.style.padding = '32px 36px 22px 36px';
+                div.style.borderRadius = '18px';
+                div.style.boxShadow = '0 8px 24px #0008';
+                div.style.fontSize = '1.23em';
+                div.style.zIndex = 99999;
+                div.style.textAlign = 'center';
+                div.style.border = '2.2px solid #e44343';
+                div.innerHTML = `<div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div><div>${msj}</div>`;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.remove();
+                    window.location.href = "login.html";
+                }, ms);
+            }
+            try {
+                const userRaw = localStorage.getItem('usuarioLogueado');
+                if (!userRaw) throw 1;
+                const user = JSON.parse(userRaw);
+                if (!user || Object.keys(user).length === 0) throw 1;
+            } catch {
+                document.addEventListener('DOMContentLoaded', function () {
+                    showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+                });
+            }
+        })();
+    </script>
+ <link rel="stylesheet" href="../../shared/css/encabezados.css">
+       <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../css/gestionusuarios.css">
+ 
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+
+<body>
+    <!-- HEADER -->
+   <header class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM SISTEMAS" class="logo-dhm">
+            <button class="btn-volver" onclick="window.location.href='../../menu/html/menuprincipal.html'" title="Volver">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="#00aaff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <span class="titulo-usuario">Carga Articulo</span>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </header>
+
+    <div class="gestion-container">
+        <!-- Buscador avanzado -->
+        <form id="buscadorUsuarios" class="buscador-form" autocomplete="off">
+            <input type="text" id="busquedaGlobalUsuarios" placeholder="Buscar usuario, correo, apellido o N° comercio"
+                autocomplete="off">
+            <input type="hidden" name="nro_comercio" id="inputNroComercio">
+            <select id="nivel_acceso_buscar" name="nivel_acceso">
+                <option value="">Nivel Acceso</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <select name="activo">
+                <option value="">Todos</option>
+                <option value="1">Activos</option>
+                <option value="0">Inactivos</option>
+            </select>
+            <button type="submit" id="btnBuscar">🔍 Buscar</button>
+            <button type="button" id="btnVerTodos" style="margin-left: 8px;">Ver Todos</button>
+        </form>
+
+        <!-- Tabla de resultados -->
+        <div class="tabla-responsive">
+            <table id="tablaUsuarios">
+                <thead>
+                    <tr>
+                        <th data-campo="Id_usuario">ID <span class="flecha-orden"></span></th>
+                        <th data-campo="apellido">Apellido <span class="flecha-orden"></span></th>
+                        <th data-campo="nombres">Nombres <span class="flecha-orden"></span></th>
+                        <th data-campo="correo">Correo <span class="flecha-orden"></span></th>
+                        <th data-campo="usuario">Usuario <span class="flecha-orden"></span></th>
+                        <th data-campo="nivel_acceso">Nivel <span class="flecha-orden"></span></th>
+                        <th data-campo="activo">Activo <span class="flecha-orden"></span></th>
+                        <th data-campo="nro_comercio">N° Comercio <span class="flecha-orden"></span></th>
+                        <th data-campo="fecha_alta">Fecha Alta <span class="flecha-orden"></span></th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <!-- Navegación entre usuarios -->
+        <div class="navegacion-comercio">
+            <button id="btnAnterior" title="Usuario anterior"><span class="icon-nav">&#8592;</span></button>
+            <button id="btnSiguiente" title="Usuario siguiente"><span class="icon-nav">&#8594;</span></button>
+        </div>
+    </div>
+    <!-- Modal emergente para mensajes -->
+    <div id="modalMensaje" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <div id="mensajeTexto"></div>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+    <!-- MODAL de edición de usuario (igual que tuyo) -->
+    <div id="modalEditarUsuario" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <h4>Editar Usuario</h4>
+            <form id="formEditarUsuario" autocomplete="off">
+                <input type="hidden" id="edit_Id_usuario">
+                <div class="modal-row">
+                    <div class="modal-group">
+                        <label for="edit_apellido">Apellido</label>
+                        <input type="text" id="edit_apellido" required>
+                        <span class="input-error" id="err_apellido"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_nombres">Nombres</label>
+                        <input type="text" id="edit_nombres" required>
+                        <span class="input-error" id="err_nombres"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_correo">Correo</label>
+                        <input type="email" id="edit_correo" required>
+                        <span class="input-error" id="err_correo"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_usuario">Usuario</label>
+                        <input type="text" id="edit_usuario" required>
+                        <span class="input-error" id="err_usuario"></span>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-group">
+                        <label for="edit_nivel_acceso">Nivel de acceso</label>
+                        <select id="edit_nivel_acceso" name="nivel_acceso" required>
+                            <option value="">Seleccione</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        <span class="input-error" id="err_nivel_acceso"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_activo">Activo</label>
+                        <select id="edit_activo" name="activo" required>
+                            <option value="">Seleccione</option>
+                            <option value="1">Sí</option>
+                            <option value="0">No</option>
+                        </select>
+                        <span class="input-error" id="err_activo"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_nro_comercio">N° Comercio</label>
+                        <input type="number" id="edit_nro_comercio" min="1" required>
+                        <span class="input-error" id="err_nro_comercio"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_fecha_alta">Fecha Alta</label>
+                        <input type="date" id="edit_fecha_alta" required>
+                        <span class="input-error" id="err_fecha_alta"></span>
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:15px;">
+                    <button class="btn-guardar" type="submit">Guardar</button>
+                    <button type="button" class="btn-cancelar" id="btnCerrarModalEditarUsuario">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL CONFIRMAR BORRADO -->
+    <div id="modalConfirmarBorrar" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <div id="confirmarBorrarTexto">¿Seguro que desea borrar este usuario?</div>
+            <div style="margin-top:12px;">
+                <button id="btnConfirmarBorrar" class="btn-guardar" style="margin-right:10px;">Sí, borrar</button>
+                <button id="btnCancelarBorrar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+      <script src="../../shared/js/utilidadusuarios.js"></script>
+     <script src="../../shared/js/notify.js"></script>
+     <script src="../js/gestionusuarios.js"></script>
+   
+</body>
+
+</html>
+
+ 

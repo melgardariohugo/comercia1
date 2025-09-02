@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gest-de Comercios - DHM SISTEMAS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <script>
+        (function () {
+            // Función para mostrar mensaje emergente central
+            function showEmergenteLogin(msj, ms = 2200) {
+                // Evita duplicados
+                if (document.getElementById('emergente-login')) return;
+                // Crea el contenedor
+                const div = document.createElement('div');
+                div.id = 'emergente-login';
+                div.style.position = 'fixed';
+                div.style.top = '30%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%)';
+                div.style.background = '#18181c';
+                div.style.color = '#fff';
+                div.style.padding = '32px 36px 22px 36px';
+                div.style.borderRadius = '18px';
+                div.style.boxShadow = '0 8px 24px #0008';
+                div.style.fontSize = '1.23em';
+                div.style.zIndex = 99999;
+                div.style.textAlign = 'center';
+                div.style.border = '2.2px solid #e44343';
+
+                // Ícono SVG de advertencia (opcional)
+                div.innerHTML = `
+            <div style="font-size:2.1em;margin-bottom:10px;">&#9888;&#65039;</div>
+            <div>${msj}</div>
+        `;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.remove();
+                    window.location.href = "login.html";
+                }, ms);
+            }
+
+            // Chequeo de usuario logueado
+            try {
+                const userRaw = localStorage.getItem('usuarioLogueado');
+                if (!userRaw) throw 1;
+                const user = JSON.parse(userRaw);
+                if (!user || Object.keys(user).length === 0) throw 1;
+            } catch {
+                // Mostrar mensaje emergente y redirigir tras 2 segundos
+                document.addEventListener('DOMContentLoaded', function () {
+                    showEmergenteLogin("Debés iniciar sesión para acceder al sistema", 2200);
+                });
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="../../shared/css/encabezados.css">
+      <link rel="stylesheet" href="../../shared/css/notify.css">
+    <link rel="stylesheet" href="../css/gestioncomercio.css">
+    <link rel="shortcut icon" href="../../../recursos/logos/carrito.png" type="image/png">
+</head>
+
+<body>
+    <div class="usuario-header">
+        <div class="header-left">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="logo-dhm" draggable="false">
+            <button class="btn-volver" id="btnVolver" title="Volver al menú principal">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 19l-7-7 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+            <h5 class="titulo-usuario">Gest-Comercios</h5>
+        </div>
+        <div class="header-right usuario-info">
+            <span class="icono-usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2" fill="#18181c" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#888" stroke-width="2" fill="none" />
+                </svg>
+            </span>
+            <span id="datos-usuario"></span>
+        </div>
+    </div>
+    <div class="gestion-container">
+        <form id="buscadorComercios" class="buscador-form">
+            <select name="activo">
+                <option value="">Todos</option>
+                <option value="1">Activos</option>
+                <option value="0">Inactivos</option>
+            </select>
+            <button type="submit" id="btnBuscar">🔍 Buscar</button>
+        </form>
+        <div class="tabla-responsive">
+            <div class="barra-busqueda">
+                <div class="busqueda-con-icono">
+                    <input type="text" id="busquedaGlobal"
+                        placeholder="Buscar por N° sucursal (1-2 dígitos), CUIT, CUIL o nombre...">
+                    <span class="icono-busqueda">&#128269;</span>
+                </div>
+
+            </div>
+            <table id="tablaComercios">
+                <thead>
+                    <tr>
+                        <th data-campo="Id_comercio">ID <span class="flecha-orden"></span></th>
+                        <th data-campo="nro_comercio">N° Comercio <span class="flecha-orden"></span></th>
+                        <th data-campo="nom_comercio">Nombre <span class="flecha-orden"></span></th>
+                        <th data-campo="razonsocial">Razón Social <span class="flecha-orden"></span></th>
+                        <th data-campo="Cuil">CUIL <span class="flecha-orden"></span></th>
+                        <th data-campo="Cuit">CUIT <span class="flecha-orden"></span></th>
+                        <th data-campo="direccion">Dirección <span class="flecha-orden"></span></th>
+                        <th data-campo="localidad">Localidad <span class="flecha-orden"></span></th>
+                        <th data-campo="partido">Partido <span class="flecha-orden"></span></th>
+                        <th data-campo="provincia">Provincia <span class="flecha-orden"></span></th>
+                        <th data-campo="cod_postal">Cód. Postal <span class="flecha-orden"></span></th>
+                        <th data-campo="correo">Correo <span class="flecha-orden"></span></th>
+                        <th data-campo="responsable">Responsable <span class="flecha-orden"></span></th>
+                        <th data-campo="nro_contacto">N° Contacto <span class="flecha-orden"></span></th>
+                        <th data-campo="nro_sucursal">N° Sucursal <span class="flecha-orden"></span></th>
+                        <th data-campo="fecha_alta">Fecha Alta <span class="flecha-orden"></span></th>
+                        <th data-campo="activo">Activo <span class="flecha-orden"></span></th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="navegacion-comercio">
+            <button id="btnAnterior" title="Comercio anterior"><span class="icon-nav">&#8592;</span></button>
+            <button id="btnSiguiente" title="Comercio siguiente"><span class="icon-nav">&#8594;</span></button>
+        </div>
+    </div>
+
+    <!-- MODAL INFORMACIÓN -->
+    <div id="modalMensaje" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <div id="mensajeTexto"></div>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- MODAL UNIVERSAL DHM (AGREGADO, NO REEMPLAZA NINGUNO) -->
+    <div id="dhmModal" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <div id="dhmModalMensaje" class="modal-mensaje-texto"></div>
+            <div class="modal-btns">
+                <button id="dhmModalOk" class="btn-guardar">Sí, borrar</button>
+                <button id="dhmModalCancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDICION COMERCIO -->
+    <div id="modalEditarComercio" class="modal-mensaje oculto">
+        <div class="modal-contenido">
+            <img src="../../../recursos/logos/carrito.png" alt="Logo DHM" class="modal-logo">
+            <h4>Editar Comercio</h4>
+            <form id="formEditarComercio" autocomplete="off" novalidate>
+                <input type="hidden" name="Id_comercio" id="edit_Id_comercio">
+                <div class="modal-row">
+                    <div class="modal-group">
+                        <label for="edit_nro_comercio">N° Comercio</label>
+                        <input type="number" min="0" max="9999" id="edit_nro_comercio" name="nro_comercio" required>
+                        <span class="input-error" id="err_nro_comercio"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_nom_comercio">Nombre</label>
+                        <input type="text" id="edit_nom_comercio" name="nom_comercio" maxlength="40" required>
+                        <span class="input-error" id="err_nom_comercio"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_razonsocial">Razón Social</label>
+                        <input type="text" id="edit_razonsocial" name="razonsocial" maxlength="40" required>
+                        <span class="input-error" id="err_razonsocial"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_Cuil">CUIL</label>
+                        <input type="text" id="edit_Cuil" name="Cuil" maxlength="11" pattern="^\d{11}$" required>
+                        <span class="input-error" id="err_Cuil"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_cuit">CUIT</label>
+                        <input type="text" id="edit_cuit" name="cuit" maxlength="11" pattern="^\d{11}$" required>
+                        <span class="input-error" id="err_cuit"></span>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-group">
+                        <label for="edit_direccion">Dirección</label>
+                        <input type="text" id="edit_direccion" name="direccion" maxlength="120" required>
+                        <span class="input-error" id="err_direccion"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_localidad">Localidad</label>
+                        <input type="text" id="edit_localidad" name="localidad" maxlength="100" required>
+                        <span class="input-error" id="err_localidad"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_partido">Partido</label>
+                        <input type="text" id="edit_partido" name="partido" maxlength="120" required>
+                        <span class="input-error" id="err_partido"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_provincia">Provincia</label>
+                        <input type="text" id="edit_provincia" name="provincia" maxlength="120" required>
+                        <span class="input-error" id="err_provincia"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_cod_postal">Cod. Postal</label>
+                        <input type="text" id="edit_cod_postal" name="cod_postal" maxlength="10" required>
+                        <span class="input-error" id="err_cod_postal"></span>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-group" style="flex:1;">
+                        <label for="edit_correo">Correo</label>
+                        <input type="email" id="edit_correo" name="correo" maxlength="120" required>
+                        <span class="input-error" id="err_correo"></span>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-group">
+                        <label for="edit_responsable">Responsable</label>
+                        <input type="text" id="edit_responsable" name="responsable" maxlength="40" required>
+                        <span class="input-error" id="err_responsable"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_nro_contacto">N° Contacto</label>
+                        <input type="text" id="edit_nro_contacto" name="nro_contacto" maxlength="15" required>
+                        <span class="input-error" id="err_nro_contacto"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_nro_sucursal">N° Sucursal</label>
+                        <input type="number" id="edit_nro_sucursal" name="nro_sucursal" min="0" max="99" maxlength="2"
+                            required>
+                        <span class="input-error" id="err_nro_sucursal"></span>
+                    </div>
+                    <div class="modal-group">
+                        <label for="edit_fecha_alta">Fecha Alta</label>
+                        <input type="date" id="edit_fecha_alta" name="fecha_alta" required>
+                        <span class="input-error" id="err_fecha_alta"></span>
+                    </div>
+                </div>
+                <div class="modal-row" style="gap:8px;justify-content: right;">
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                    <button type="button" id="btnCerrarModalEditar" class="btn-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../shared/js/utilidadusuarios.js"></script>
+    <script src="../../shared/js/notify.js"></script>
+    <script src="../JS/gestioncomercio.js"></script>
+    
+</body>
+
+</html>

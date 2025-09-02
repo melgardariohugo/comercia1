@@ -1,0 +1,66 @@
+.notify-msg {
+    position: fixed;
+    top: 52px;
+    left: 0; right: 0;
+    margin: 0 auto;
+    width: 370px;
+    z-index: 9999;
+    border-radius: 16px;
+    background: #18181c;
+    color: #fff;
+    padding: 18px 26px;
+    box-shadow: 0 8px 38px #18181c99, 0 4px 16px #000a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: notify-in 0.38s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    transition: opacity 0.18s;
+}
+.notify-inner {
+    width: 100%;
+    display: flex; align-items: center; gap: 13px;
+    justify-content: center;
+    position: relative;
+}
+.notify-logo {
+    width: 50px; height: 35px; border-radius: 15%;
+    background: rgba(20, 20, 20, 0.133);
+    padding: 2.5px;
+    box-shadow: 0 2px 7px rgba(86, 85, 85, 0.533);
+}
+.notify-icon svg {
+    display: block;
+}
+.notify-text { 
+    font-size: 1.12em; 
+    flex: 1 1 auto; 
+    text-align: left;
+}
+.notify-success { border-left: 6px solid #14e19b; }
+.notify-ok      { border-left: 6px solid #14e19b; }
+.notify-error   { border-left: 6px solid #f45a63; }
+.notify-info    { border-left: 6px solid #1f8fff; }
+.notify-warning { border-left: 6px solid #ffd86a; }
+.notify-warn    { border-left: 6px solid #ffd86a; }
+.notify-msg.notify-out {
+    animation: notify-out 0.45s forwards;
+}
+.notify-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.7em;
+    line-height: 1;
+    margin-left: 8px;
+    opacity: 0.55;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 1px;
+    transition: opacity 0.15s;
+}
+.notify-close:hover { opacity: 1; }
+@keyframes notify-in { from { opacity: 0; transform: translateY(-32px) scale(.96);} }
+@keyframes notify-out { to { opacity: 0; transform: translateY(-22px) scale(.94); filter: blur(2px);} }
+@media (max-width: 600px) { .notify-msg { width: 97vw; min-width: 0; padding: 13px 2vw; } }

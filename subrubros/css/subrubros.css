@@ -1,0 +1,154 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #000;
+    min-height: 100vh;
+    width: 100vw;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+main {
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 44px;
+}
+
+.card-formulario-subrubro {
+  background: #18181c;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #0009;
+  padding: 32px 36px 28px 36px;
+  max-width: 670px;
+  width: 100%;
+  margin: 0 auto;
+  border: 2.2px solid #252525;
+}
+
+.formSubrubro,
+.card-formulario-subrubro form {
+  width: 100%;
+}
+
+.fila-form {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.campo-form {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-form label {
+  color: #aee0fb;
+  margin-bottom: 7px;
+  font-size: 0.99em;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  padding-left: 2px;
+}
+
+.campo-form input,
+.campo-form select {
+  background: #111217;
+  color: #fff;
+  border: 1.5px solid #3b3c3c;
+  border-radius: 9px;
+  font-size: 1.08em;
+  padding: 8px 10px;
+  transition: border-color 0.2s;
+  margin-bottom: 2px;
+  outline: none;
+}
+
+.campo-form input[readonly] {
+  background: #23242a;
+  color: #91cfff;
+  font-weight: 500;
+  border-color: #3b3c3c;
+  cursor: default;
+}
+
+.campo-form input:focus,
+.campo-form select:focus {
+  border-color: #16c7e5;
+}
+.nro_comercio,
+.nro_rubro{
+    width: 90px;
+}
+.combo_rubro{
+     width: 430px;
+}
+.campo-form select {
+  cursor: pointer;
+  min-width: 0;
+}
+
+.botones-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.btn-guardar-subrubro,
+.btn-ir-gestion {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.07em;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 0.19s, color 0.19s, box-shadow 0.19s;
+  margin-left: 0;
+}
+
+.btn-guardar-subrubro {
+  background: linear-gradient(90deg, #1791e5 60%, #15e6d2 100%);
+  color: #fff;
+  box-shadow: 0 2px 12px #102e44a0;
+}
+
+.btn-guardar-subrubro:hover {
+  background: linear-gradient(90deg, #15e6d2 10%, #1791e5 100%);
+  color: #111;
+  box-shadow: 0 4px 20px #15e6d2b0;
+}
+
+.btn-ir-gestion {
+  background: #191e2a;
+  color: #16c7e5;
+  border: 1.4px solid #16c7e5;
+}
+
+.btn-ir-gestion:hover {
+  background: #16c7e5;
+  color: #10121b;
+  border-color: #15e6d2;
+  box-shadow: 0 2px 12px #1791e5a0;
+}
+
+/* Responsive para pantallas chicas */
+@media (max-width: 800px) {
+  .card-formulario-subrubro {
+    padding: 18px 5vw 20px 5vw;
+    min-width: 0;
+  }
+  .fila-form {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 10px;
+  }
+  .botones-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
